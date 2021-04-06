@@ -29,7 +29,7 @@ It is recommended to start CryptoWatchdog at system startup, either through Task
 
 CryptoWatchdog can be used with any mining software and optionally will work with MSI Afterburner profiles to adjust overclocking settings.
 
-The following options are editable in the config.yml file.
+The following settings are editable in the config.yml file.
 
 ```
 ## Set the delay in seconds for starting

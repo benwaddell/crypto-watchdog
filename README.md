@@ -1,16 +1,16 @@
-   #CryptoWatchdog
+# CryptoWatchdog
 
 CryptoWatchdog is a program that automates the starting/stopping of crypto mining software based on which applications are currently running. Applications that should stop the mining process can be specified in the config.yml file.
 
 #Installation
 CryptoWatchdog can be run in Python or as a standalone Windows executable file.
 
-###To run Windows standalone executable:
+### To run Windows standalone executable:
 - Download and extract zip file.
 - Configure config.yml file to match your miner and preferred settings.
 
 
-###To run in Python:
+### To run in Python:
 - Install PyYAML:
     ```bash
     pip install PyYAML

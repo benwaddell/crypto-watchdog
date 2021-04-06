@@ -1,0 +1,27 @@
+# set the delay in seconds for starting the watchdog after PC boot (default: 60)
+start_delay: 60
+
+# set, in seconds, how often a check should be performed (default: 5)
+check_delay: 5
+
+# specify the full path to the miner
+path: 'C:\Crypto Mining\trex\t-rex.exe'
+
+# specify command line argument for miner
+arg: '-c config.txt'
+
+# specify MSI Afterburner profile to use when not mining
+normal_prof: 'Profile1'
+
+# specify MSI Afterburner profile to use when mining
+mining_prof: 'Profile2'
+
+# specify apps that should force the miner to stop
+# (ex: "- Photoshop.exe")
+# case does not matter (i.e. "- Photoshop.exe" is
+# the same as "- PhOtOsHoP.eXe")
+apps:
+  - 'RocketLeague.exe'
+  - 'ffxiv_dx11.exe'
+  - 'DeadByDaylight-Win64-Shipping.exe'
+  - 'Hearthstone.exe'

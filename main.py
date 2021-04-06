@@ -1,32 +1,41 @@
 import subprocess, time, yaml, sys, os
 from subprocess import Popen, CREATE_NEW_CONSOLE
 
-# get the path of the exe and config.yml file
-path = os.path.split(sys.argv[0])[0].replace('/', '\\')
+# load the config.yml file and set variables
+def loadconfig():
 
-# set the path of the config.yml file
-config = f'{path}\\config.yml'
+    # define global variables
+    global start_delay, check_delay, path, miner, arg, apps, normal_prof, mining_prof
 
-# get variables from JSON config file (do not modify this file directly)
-with open(config, 'r') as yml_file:
-    cfg = yaml.load(yml_file, Loader=yaml.BaseLoader)
+    # get the path of the exe and config.yml file
+    path = os.path.split(sys.argv[0])[0].replace('/', '\\')
 
-start_delay = int(cfg['start_delay'])
-check_delay = int(cfg['check_delay'])
-path = cfg['path']
-miner = cfg['path'].split('\\')[-1]
-arg = cfg['arg']
-apps = cfg['apps']
-normal_prof = cfg['normal_prof']
-mining_prof = cfg['mining_prof']
+    # set the path of the config.yml file
+    config = f'{path}\\config.yml'
 
-# delay give time for the OS and apps to boot
-time.sleep(start_delay)
+    # get variables from JSON config file (do not modify this file directly)
+    with open(config, 'r') as yml_file:
+        cfg = yaml.load(yml_file, Loader=yaml.BaseLoader)
 
-# check in procs to see if gpu miner or gpu intensive app is currently running
+    start_delay = int(cfg['start_delay'])
+    check_delay = int(cfg['check_delay'])
+    path = cfg['path']
+    miner = cfg['path'].split('\\')[-1]
+    arg = cfg['arg']
+    apps = cfg['apps']
+    normal_prof = cfg['normal_prof']
+    mining_prof = cfg['mining_prof']
+
+# gather running procs, check if app or miner in procs, start/stop miner if necessary
 def watchdog(apps):
+
     app_running = False
     gpu_running = False
+
+    # query all running processes
+    procs = (subprocess.check_output(['wmic', 'process', 'get', 'description'], universal_newlines=True))
+
+    # check if specified app or miner in procs
     for app in apps:
         if app.lower() in procs.lower():
             app_running = True
@@ -39,21 +48,33 @@ def watchdog(apps):
         subprocess.Popen(["taskkill", "/F", "/IM", miner])
         subprocess.Popen(['C:\Program Files (x86)\MSI Afterburner\MSIAfterburner.exe', f'-{normal_prof}'],
                          creationflags=CREATE_NEW_CONSOLE, shell=True)
-        
-    # if miner or gpu intensive app not running, enable gpu overclocking profile and start miner
+
+    # if miner or gpu intensive app not running, enable gpu overclocking profile and start the miner
     elif app_running == False and gpu_running == False:
         subprocess.Popen(['C:\Program Files (x86)\MSI Afterburner\MSIAfterburner.exe', f'-{mining_prof}'],
                          creationflags=CREATE_NEW_CONSOLE, shell=True)
         subprocess.Popen([path, arg], creationflags=CREATE_NEW_CONSOLE, shell=True)
 
 # run on a loop
-while True:
+def runloop():
 
-    # query all running processes
-    procs = (subprocess.check_output(['wmic', 'process', 'get', 'description'], universal_newlines=True))
+    while True:
 
-    # run the watchdog function
-    watchdog(apps)
+        # run the loadconfig function
+        loadconfig()
 
-    # repeat every X seconds
-    time.sleep(check_delay)
+        # run the watchdog function
+        watchdog(apps)
+
+        # repeat every X seconds
+        time.sleep(check_delay)
+
+
+# load the config
+loadconfig()
+
+# delay give time for the OS and apps to boot
+time.sleep(start_delay)
+
+# run the script
+runloop()

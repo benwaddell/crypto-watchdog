@@ -1,5 +1,10 @@
-import subprocess, time, yaml, sys, os
+import subprocess
+import time
+import yaml
+import sys
+import os
 from subprocess import Popen, CREATE_NEW_CONSOLE
+
 
 # load the config.yml file and set variables
 def loadconfig():
@@ -26,8 +31,9 @@ def loadconfig():
     normal_prof = cfg['normal_prof']
     mining_prof = cfg['mining_prof']
 
+
 # gather running procs, check if app or miner in procs, start/stop miner if necessary
-def watchdog(apps):
+def watchdog(apps_list):
 
     app_running = False
     gpu_running = False
@@ -36,24 +42,25 @@ def watchdog(apps):
     procs = (subprocess.check_output(['wmic', 'process', 'get', 'description'], universal_newlines=True))
 
     # check if specified app or miner in procs
-    for app in apps:
+    for app in apps_list:
         if app.lower() in procs.lower():
             app_running = True
         elif miner in procs:
             gpu_running = True
 
     # if both miner and gpu intensive app are running, kill the miner and disable the overclocking profile
-    if app_running == True and gpu_running == True:
+    if app_running is True and gpu_running is True:
         time.sleep(10)
         subprocess.Popen(["taskkill", "/F", "/IM", miner])
-        subprocess.Popen(['C:\Program Files (x86)\MSI Afterburner\MSIAfterburner.exe', f'-{normal_prof}'],
+        subprocess.Popen([r'C:\Program Files (x86)\MSI Afterburner\MSIAfterburner.exe', f'-{normal_prof}'],
                          creationflags=CREATE_NEW_CONSOLE, shell=True)
 
     # if miner or gpu intensive app not running, enable gpu overclocking profile and start the miner
-    elif app_running == False and gpu_running == False:
-        subprocess.Popen(['C:\Program Files (x86)\MSI Afterburner\MSIAfterburner.exe', f'-{mining_prof}'],
+    elif app_running is False and gpu_running is False:
+        subprocess.Popen([r'C:\Program Files (x86)\MSI Afterburner\MSIAfterburner.exe', f'-{mining_prof}'],
                          creationflags=CREATE_NEW_CONSOLE, shell=True)
         subprocess.Popen([path, arg], creationflags=CREATE_NEW_CONSOLE, shell=True)
+
 
 # run on a loop
 def runloop():

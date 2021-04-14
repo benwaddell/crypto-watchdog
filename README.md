@@ -1,12 +1,12 @@
 # CryptoWatchdog
 
-CryptoWatchdog is an application that runs in the background and automates the starting/stopping of crypto mining software based on which other applications are currently running. This is useful if you use a personal computer for mining when idle, but need to disable mining when certain applications are running.
+CryptoWatchdog is an application that runs in the background and automates the starting/stopping of crypto mining software based on which other application are currently running. This is useful if you use a personal computer for mining when idle, but need to disable mining when certain applications are running.
 
 ## How It Works
 
 CryptoWatchdog operates quietly in the background to continuously monitor for applications that should disable mining. These applications must be specified in the config.yml file.
 
-The currently running processes will be queried to determine if one of these applications is running.
+The currently running processes will be queried to determine if one of these specified applications is running.
 
 * If none of these applications are running, mining will be started.
 

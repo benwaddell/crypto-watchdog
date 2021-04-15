@@ -4,6 +4,11 @@
 
 start_delay: 60
 
+## Set the delay in seconds for resuming
+## the miner after Applications are closed (default: 0).
+
+resume_delay: 0
+
 ## Set, in seconds, how often an application
 ## check should be performed (default: 5).
 
@@ -31,8 +36,8 @@ arg: '-c config.txt'
 
 #mining_prof: 'Profile2'
 
-## Specify apps that should force the miner to stop
-## (ex: "- Photoshop.exe").
+## Specify Applications that should force the miner
+## to stop (ex: "- Photoshop.exe").
 ## Case does not matter (i.e. "- Photoshop.exe" is
 ## the same as "- PhOtOsHoP.eXe").
 

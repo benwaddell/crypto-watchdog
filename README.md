@@ -1,6 +1,6 @@
 # CryptoWatchdog
 
-CryptoWatchdog is an application that runs in the background and automates the starting/stopping of crypto mining software based on which other application are currently running. This is useful if you use a personal computer for mining when idle, but need to disable mining when certain applications are running.
+CryptoWatchdog is an application that runs in the background and automates the starting/stopping of crypto mining software based on which other application are currently running. This is useful if you use a personal computer for mining when idle, but need to disable mining when certain GPU intensive applications are running.
 
 ## How It Works
 
@@ -52,19 +52,24 @@ The following settings are editable in the config.yml file.
 
 start_delay: 60
 
+## Set the delay in seconds for resuming
+## the miner after Applications are closed (default: 0).
+
+resume_delay: 0
+
 ## Set, in seconds, how often an application
 ## check should be performed (default: 5).
 
 check_delay: 5
 
 ## Specify the full path to the miner.
-## REQUIRED -- Please change for your miner:
+## REQUIRED -- Please change:
 
 path: 'C:\CryptoMining\miner\miner.exe'
 
 ## Specify command line argument for miner.
 ## Set as empty string if no argument (i.e. '' ).
-## REQUIRED -- Please change for your miner:
+## REQUIRED -- Please change:
 
 arg: '-c config.txt'
 
@@ -74,14 +79,13 @@ arg: '-c config.txt'
 
 #normal_prof: 'Profile1'
 
-## Specify MSI Afterburner profile to use
-## when mining.
+## Specify MSI Afterburner profile to use when mining.
 ## Remove the # to enable.
 
 #mining_prof: 'Profile2'
 
-## Specify apps that should force the miner to stop
-## (ex: "- Photoshop.exe").
+## Specify Applications that should force the miner
+## to stop (ex: "- Photoshop.exe").
 ## Case does not matter (i.e. "- Photoshop.exe" is
 ## the same as "- PhOtOsHoP.eXe").
 
